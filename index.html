@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Học Thiết Kế Web Tương Tác — HTML, CSS, JavaScript & DOM</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Overlay cho màn hình điện thoại khi mở menu sidebar -->
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeMobileSidebar()"></div>
+
+  <div class="app-container">
+
+    <!-- ==================== SIDEBAR ĐIỀU HƯỚNG ==================== -->
+    <aside class="sidebar" id="main-sidebar">
+      
+      <!-- Header Sidebar với Logo Cute Neo-Brutalism -->
+      <div class="sidebar-header">
+        <a href="javascript:void(0)" class="brand">
+          <div class="brand-badge-rotate">HK1</div>
+          <div class="brand-text">
+            <h1>WebDev <span class="highlight-pill">Master</span></h1>
+            <p>Tương Tác &bull; Đục Lỗ &bull; Live Preview</p>
+          </div>
+        </a>
+        <button class="mobile-close-btn" onclick="closeMobileSidebar()" aria-label="Đóng menu">✕</button>
+      </div>
+
+      <!-- Ô tìm kiếm bài học nhanh -->
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="sidebar-search-input" class="search-input" placeholder="Tìm nhanh bài học, thẻ HTML, CSS..." autocomplete="off">
+      </div>
+
+      <!-- Thanh tiến độ tổng thể -->
+      <div class="progress-card">
+        <div class="progress-info">
+          <span>Tiến độ học tập</span>
+          <span id="overall-progress-text" class="progress-percent">0%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-bar-fill" id="overall-progress-bar"></div>
+        </div>
+      </div>
+
+      <!-- Danh sách Accordion 5+ Chương -->
+      <nav class="sidebar-nav" id="sidebar-nav-container">
+        <!-- Được render tự động từ COURSE_DATA qua app.js -->
+      </nav>
+
+      <!-- Footer Sidebar -->
+      <div class="sidebar-footer">
+        <div class="tip-pill">
+          <span>✨</span> Gõ code đục lỗ &bull; Nhận giải thích tức thì!
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ==================== KHU VỰC CHÍNH (MAIN WRAPPER) ==================== -->
+    <main class="main-wrapper">
+
+      <!-- Header trên cùng (Top bar) -->
+      <header class="top-header">
+        
+        <div class="header-left">
+          <button class="mobile-menu-btn" onclick="toggleMobileSidebar()" aria-label="Mở menu">
+            ☰ Menu
+          </button>
+          
+          <nav class="breadcrumb" aria-label="Đường dẫn bài học">
+            <span class="bc-pill" id="bc-chapter">Chương 4: Ngôn ngữ HTML</span>
+            <span class="bc-arrow">➔</span>
+            <span class="current" id="bc-lesson">1. HTML là gì &amp; Cú pháp thẻ</span>
+          </nav>
+        </div>
+
+        <div class="header-actions">
+          
+          <!-- Tab chuyển chế độ Lý Thuyết / Bài Tập Đục Lỗ -->
+          <div class="view-mode-tabs">
+            <button class="tab-btn active" id="tab-mode-theory" onclick="switchViewMode('lesson')">
+              <span>📖</span> Lý thuyết &amp; Ví dụ
+            </button>
+            <button class="tab-btn" id="tab-mode-exercise" onclick="switchViewMode('exercise')">
+              <span>✍️</span> Bài tập đục lỗ
+            </button>
+          </div>
+
+          <!-- Nút đổi Dark / Light Theme -->
+          <button class="theme-toggle-btn" id="theme-toggle-btn" onclick="toggleTheme()" title="Đổi giao diện Sáng / Tối">
+            🌙
+          </button>
+
+        </div>
+      </header>
+
+      <!-- Thân nội dung -->
+      <div class="content-body">
+
+        <!-- ==================== CHẾ ĐỘ 1: BÀI HỌC 2 CỘT (SPLIT VIEW) ==================== -->
+        <div class="lesson-view" id="lesson-view-container">
+
+          <!-- CỘT TRÁI: Lý thuyết + Mã code có thể sửa -->
+          <div class="theory-column">
+            
+            <div class="lesson-meta">
+              <span class="tag-badge" id="lesson-tag">Cơ bản</span>
+              <span class="time-badge" id="lesson-time">⏱️ 5 phút</span>
+            </div>
+
+            <h2 class="lesson-headline" id="lesson-title">1. HTML là gì &amp; Cú pháp thẻ</h2>
+
+            <!-- Nội dung lý thuyết chi tiết -->
+            <div class="theory-text" id="lesson-theory">
+              <!-- Render động từ course-data.js -->
+            </div>
+
+            <!-- Khối hiển thị Code mẫu (Editable & Có nút chạy lại) -->
+            <div class="code-block-wrapper">
+              <div class="code-header">
+                <div class="code-title">
+                  <span class="code-lang-dot"></span>
+                  <span>MÃ NGUỒN MINH HỌA (Có thể chỉnh sửa &amp; chạy lại)</span>
+                </div>
+                <div class="code-actions">
+                  <button class="btn-code-action" id="btn-copy-code" onclick="copyCodeToClipboard()">
+                    <span>📋</span> Sao chép
+                  </button>
+                  <button class="btn-code-action highlight" onclick="runUserCode()" title="Phím tắt: Ctrl + Enter">
+                    <span>▶</span> Chạy thử (Run)
+                  </button>
+                  <button class="btn-code-action" onclick="resetLessonCode()" title="Khôi phục code gốc">
+                    <span>↺</span> Khôi phục
+                  </button>
+                </div>
+              </div>
+              <textarea class="code-editor-area" id="code-editor-area" spellcheck="false" placeholder="Nhập mã code..."></textarea>
+            </div>
+
+            <!-- Nút chuyển bài trước / sau ở chân trang -->
+            <div class="nav-buttons-bottom" id="lesson-nav-bottom">
+              <!-- Render động -->
+            </div>
+
+          </div>
+
+          <!-- CỘT PHẢI: Ví dụ trực quan (Live Render Preview) -->
+          <div class="preview-column">
+            
+            <div class="preview-toolbar">
+              <div class="preview-title">
+                <span class="pulse-indicator"></span>
+                <span>VÍ DỤ TRỰC QUAN (LIVE PREVIEW)</span>
+              </div>
+              <div class="preview-controls">
+                <button class="device-btn active" data-device="desktop" onclick="setPreviewDevice('desktop')" title="Giao diện Máy tính">
+                  💻 Desktop
+                </button>
+                <button class="device-btn" data-device="tablet" onclick="setPreviewDevice('tablet')" title="Giao diện Tablet">
+                  📱 Tablet
+                </button>
+                <button class="device-btn" data-device="mobile" onclick="setPreviewDevice('mobile')" title="Giao diện Mobile">
+                  📲 Mobile
+                </button>
+                <button class="device-btn refresh-btn" onclick="runUserCode()" title="Tải lại khung hiển thị">
+                  🔄
+                </button>
+              </div>
+            </div>
+
+            <!-- Khung Sandbox hiển thị kết quả -->
+            <div class="preview-body">
+              <div class="preview-frame-container desktop" id="preview-frame-container">
+                <div class="frame-header">
+                  <div class="frame-dots">
+                    <span class="frame-dot red"></span>
+                    <span class="frame-dot yellow"></span>
+                    <span class="frame-dot green"></span>
+                  </div>
+                  <div class="frame-url-bar">https://preview.local/sandbox</div>
+                  <div style="width: 30px;"></div>
+                </div>
+                <iframe class="live-iframe" id="live-preview-iframe" sandbox="allow-scripts allow-modals"></iframe>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ==================== CHẾ ĐỘ 2: BÀI TẬP ĐỤC LỖ TƯƠNG TÁC ==================== -->
+        <div class="exercises-view" id="exercises-view-container">
+
+          <div class="exercises-header">
+            <div class="exercises-title-wrap">
+              <h2 id="ex-chapter-title">✍️ Thực Hành Đục Lỗ — Chương 4</h2>
+              <p>Điền từ khóa hoặc mã code còn thiếu vào các ô trống <code>[ ? ]</code>. Bấm <strong>Enter</strong> hoặc nút <strong>Kiểm tra</strong> để chấm điểm ngay!</p>
+            </div>
+            <div class="score-badge">
+              <div class="score-number" id="ex-score-display">0 / 10</div>
+              <div class="score-label">ĐÃ HOÀN THÀNH</div>
+            </div>
+          </div>
+
+          <!-- Danh sách bài tập đục lỗ -->
+          <div class="exercises-container" id="exercises-list-container">
+            <!-- Render động từ course-data.js -->
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Nạp dữ liệu khóa học và logic tương tác -->
+  <script src="js/course-data.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
